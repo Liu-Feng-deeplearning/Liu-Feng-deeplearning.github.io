@@ -3,10 +3,12 @@
 # ---------------- #
 baseurl:
 url: https://Liu-Feng-deeplearning.github.io
+
 date_format: "ordinal"
 title: "Liufeng's Blogs"
 subtitle: "lf Coding Life"
 description: "Share My Coding Life"
+
 keywords: Feedliu
 timezone: Asia/Shanghai
 encoding: "utf-8"
@@ -15,12 +17,12 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: feedliu
+author: LiuFeng
 organization: 
 organization_url: 
-github_username: feedliu
-location: Beijing, China
-email: feedliu15@gmail.com
+github_username: Liu-Feng-deeplearning
+location: ShenZhen, China
+email: liufeng900204@163.com
 
 # ---------------- #
 #    Navigation    #

@@ -2,7 +2,7 @@
 layout: post
 title: start-my-blog
 categories: others
-description: wavernn与性能优化
+description: introduction
 keywords: 中文写作规范
 ---
 
@@ -12,7 +12,7 @@ keywords: 中文写作规范
 
 近来工作不忙，想尝试一下博客写作试试好不好玩。
 
-借鉴了马壮大神和feedliu的模版。简洁易用。
+借鉴了马壮大神和feedliu的模版。直接Fork+少量改动即可。简洁易用。
 
 两位老师的页面。
 - https://github.com/mzlogin/mzlogin.github.io

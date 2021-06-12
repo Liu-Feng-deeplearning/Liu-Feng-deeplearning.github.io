@@ -2,28 +2,21 @@
 layout: page
 title: About
 description: Share my coding life
-keywords: Feedliu
+keywords: LiuFeng
 comments: true
 menu: About
 permalink: /about/
 ---
 
->我宁愿犯错，也不愿什么都不做。
+>人生是一场修行。
 
-姓名： 刘耀
+姓名： 刘峰
 
-学历： 研究生
+专业： 深度学习/语音识别/语音合成
 
-学校： 本科毕业于武汉大学，研究生毕业于中国科学院大学
-
-专业： 机器学习
-
-公司： 百度，核心搜索部
+公司： Huya
 
 职位： 算法工程师
 
-Github： https://github.com/feedliu
+Github： https://github.com/Liu-Feng-deeplearning
 
-微信公众号： feedliu
-
-<div style="text-align:center"><img src ="https://raw.githubusercontent.com/feedliu/feedliu.github.io/master/images/pages/qrcode.bmp" /></div>

@@ -10,8 +10,9 @@ keywords: 语音识别， Kaldi
 最近在某个任务上，尝试对seq进行帧级别的分类，回去仔细研究了一下kaldi中的tdnnf结构，
 感觉模型设计非常精巧，对后续学习和帮助很有帮助。
 
-kaldi tdnn_7q model在pytorch上的实现，可以参考 [kaldi_asr_factorized_tdnn](https://github.com/Liu-Feng-deeplearning/Kaldi_ASR_Factorized_Tdnn),
 
+kaldi中tdnnf模型在pytorch上的实现，可以参考我之前的项目
+ [kaldi_asr_factorized_tdnn](https://github.com/Liu-Feng-deeplearning/Kaldi_ASR_Factorized_Tdnn)
 
 ---
 ## Factorized Tdnn Layer

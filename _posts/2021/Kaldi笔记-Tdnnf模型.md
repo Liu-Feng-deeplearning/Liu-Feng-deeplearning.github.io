@@ -1,4 +1,11 @@
-# Kaldi笔记-Tdnnf模型
+---
+layout: post
+title: Kaldi笔记-Tdnnf模型
+categories: 语音识别 Kaldi
+description:  
+keywords: 语音识别， Kaldi
+---
+
 
 最近在某个任务上，尝试对seq进行帧级别的分类，回去仔细研究了一下kaldi中的tdnnf结构，
 感觉模型设计非常精巧，对后续学习和帮助很有帮助。

@@ -19,13 +19,7 @@ DNN-base or 更复杂的vad算法大行其道，数据驱动下，vad可以做�
 
 完整项目和更多细节可以参考[我的github项目](https://github.com/Liu-Feng-deeplearning/Energy_Based_VAD)
 
-核心算法非常简单，通过计算每个窗口内能量并合阈值进行判断。在此基础上，进行了上层封装，
-使之可以支持采样点和mel谱两种输入，同时实现了离线和流式两种封装接口以方便使用。
-
-同时，根据以往的项目经验，获得了一些常用的经验参数可供使用。
- 
-
-**sig_vad**
+核心算法非常简单，通过计算每个窗口内能量并合阈值进行判断。代码如下：
 
 ```text
 mse = librosa.feature.rms(y, frame_length=self._frame_length,
@@ -43,15 +37,18 @@ for x in range(-1, len(signal_db)):
 sil_endpoints = [(_s, _e) for _s, _e in sil_endpoints if _e - _s > 1]
 ```
 
+与此同时，对核心代码进行了上层封装，使之可以支持采样点和mel谱两种输入，同时实现了离线和流式两种封装接口以方便使用。
+根据以往的项目经验，提供一些常用的经验参数可供使用。
+
 ### offlineVAD and onlineVAD
 
 - offlineVAD 使用单条音频的最大能量作为基准值，onlineVAD 人为给定全局能量基准值。
 - 可以通过tools.feature_and_signal.tool_vad中的方法获得全局能量基准值。
 - 一般来说，offlineVAD 更为精确，但两者差别不大。
 
-### vad for tts(tacotron/fastspeech/durian)
+### vad for tts(tacotron)
 
-基于 attention 的 tts 声学模型，例如 Tacotron， 如果训练数据中，
+基于 attention 的 tts 声学模型(e.g. Tacotron)，如果训练数据中，
 句首和句末包括了过长的静音，可能会存在对齐无法收敛和解码停不下来的情况。
 因此，librosa.trim_silence 是很多实现中多会采用的 trick。
 如果是自己采集的数据，句中的过长静音也同样是需要考虑的问题。
@@ -67,7 +64,7 @@ sil_endpoints = [(_s, _e) for _s, _e in sil_endpoints if _e - _s > 1]
 
 ### vad for vc
 
-和asr类似，使用vad作为输入音频的第一道工序。vad切分，避免过长的音频。vad识别静音，从而降噪+提高rtf
+与asr类似，使用 vad 对输入音频进行预处理。vad切分，可以避免过长的音频，减轻转换模型的负担。
+同时，使用 vad 过滤掉静音段（以及含有微小噪声的非语音段），可以达到降噪并提高 rtf 的效果。一举两得。
 
-- xx
 

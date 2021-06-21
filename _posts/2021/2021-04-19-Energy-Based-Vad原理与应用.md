@@ -6,6 +6,9 @@ description:
 keywords: 语音信号处理， VAD
 ---
 
+简单的 vad 算法，有时可以却起到意想不到的效果。
+
+
 VAD-Voice Active Detection. 几乎所有的语音任务中，都可以见到VAD的身影。
 在编解码问题中，vad可应用于低码率编码静音段数据减少网络数据传输。
 在ASR中，vad可以用来定位音频起始时间，大幅度提升系统rtf。

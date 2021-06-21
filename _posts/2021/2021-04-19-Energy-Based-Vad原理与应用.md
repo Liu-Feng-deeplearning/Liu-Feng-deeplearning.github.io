@@ -1,4 +1,10 @@
-# Technical Details For Vad
+---
+layout: post
+title: Energy Based Vad 原理与应用
+categories: 语音信号处理
+description:  
+keywords: 语音信号处理， VAD
+---
 
 VAD-Voice Active Detection. 几乎所有的语音任务中，都可以见到VAD的身影。
 在编解码问题中，vad可应用于低码率编码静音段数据减少网络数据传输。

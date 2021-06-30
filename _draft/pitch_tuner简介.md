@@ -13,7 +13,12 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 xxx
 
 #### Pitch Tuner 
+
 ![](images/posts/test_pitch_by_point.png)
+
+![](../images/posts/windows/a.png)
+
+zz
 
 - - - 
 

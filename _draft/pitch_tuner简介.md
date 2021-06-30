@@ -14,7 +14,7 @@ xxx
 
 #### Pitch Tuner 
 
-![](images/posts/test_pitch_by_point.png)
+![](../images/posts/test_pitch_by_point.png)
 
 ![](../images/posts/windows/a.png)
 

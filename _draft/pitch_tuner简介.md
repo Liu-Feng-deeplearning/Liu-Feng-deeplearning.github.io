@@ -31,9 +31,21 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 本质上来说，基于Psola或Wsola的算法，实现采样点级别的pitch修改并无额外难度，但对应好用的算法接口却并不多。
 Praat是其中一个，它提供了比较灵活的pitch-tuner接口。可以实现下述类似的功能。
 
+<div align=center>
+<img src=https://img-blog.csdnimg.cn/20200822014538211.png width=20% />
+</div>
+
+---
+ad
+
+<div align=left>
+<img src=https://img-blog.csdnimg.cn/20200822014538211.png width=20% />
+</div>
+
+xxx
 
 
- <img src="../images/posts/2021/test_pitch_by_point.png" width =600 height=300 alt="tuner-pic" align=center />
+<img src="../images/posts/2021/test_pitch_by_point.png" width =600 height=400 alt="tuner-pic" align=center />
 
 
 - - - 

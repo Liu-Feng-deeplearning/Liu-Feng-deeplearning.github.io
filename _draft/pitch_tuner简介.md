@@ -7,7 +7,7 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 中文中， pitch 的高低不仅影响汉字的音调，同时也是反应语言情绪表达的主要特征。无论是 TTS 
 还是 vc 任务，均有一类基于 pitch 的方案活跃在 paper和工程中。
 
-这篇文章会重点介绍一种基于采样点级别的pitch调整算法。
+这篇文章会重点介绍一种基于采样点级别的pitch调整算法。代码细节和具体例子均位于 [Pitch_and_Duration_tuner](https://github.com/Liu-Feng-deeplearning/Pitch_and_Duration_Tuner)
 
 #### 基频提取器
 什么是基频/f0/pitch
@@ -24,43 +24,23 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 
 #### Pitch Tuner 
 
-何谓tuner？
 常见的Pitch修改器一般都是seq级别的，例如sox/ffmpeg/Sptk。
 某些特定的场景下，我们需要一个采样点级别的pitch修改器，可以更灵活的对音频中某一段的基频进行修改。
 
 本质上来说，基于Psola或Wsola的算法，实现采样点级别的pitch修改并无额外难度，但对应好用的算法接口却并不多。
-Praat是其中一个，它提供了比较灵活的pitch-tuner接口。可以实现下述类似的功能。
+Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 
----
-
+一个例子：将音频0.5～1.5s部分基频提升10%。实现前后基频图像如下
 <div align=center>
 <img src="../images/posts/2021/test_pitch_by_point.png" width=40% />
 </div>
 
----
+具体使用方法和更多例子，可以参考git项目。
 
-<div align=center>
-<img src=https://img-blog.csdnimg.cn/20200822014538211.png width=20% />
-</div>
+#### 其他功能
 
----
-ad
+**Duration Tuner**
 
-<div align=left>
-<img src=https://img-blog.csdnimg.cn/20200822014538211.png width=20% />
-</div>
+类似的，不仅可以调基频，也可以点对点的调整duration（调速）。调用接口类似。不过这里要注意的是，速度调整是连续渐变的。
 
-xxx
-
-
-<img src="../images/posts/2021/test_pitch_by_point.png" width =600 height=400 alt="tuner-pic" align=center />
-
-
-- - - 
-
-https://github.com/Yablon/auorange
-
-https://zhuanlan.zhihu.com/p/100287790
-
-
-![](../images/posts/2021/test_pitch_by_point.png =600)
+例如，对于1s的音频，如果在0.3s处希望duration为原来的2倍，那么，总音频时长为 1.5s(=(1.0+2.0)x0.3x0.5+(1.0+2.0)x0.7x0.5)

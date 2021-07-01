@@ -34,7 +34,7 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。可以实�
 ---
 
 <div align=center>
-<img src=../images/posts/2021/test_pitch_by_point.png width=40% />
+<img src="../images/posts/2021/test_pitch_by_point.png" width=40% />
 </div>
 
 ---

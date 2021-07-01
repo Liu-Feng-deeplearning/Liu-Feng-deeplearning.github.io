@@ -1,5 +1,10 @@
-
-Pitch Tuner
+---
+layout: post
+title: Pitch Tuner
+categories: 信号处理
+description:  
+keywords: 信号处理
+---
 
 基于 Psola 采样点级别的 Pitch 调整算法。
 
@@ -9,8 +14,9 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 
 这篇文章会重点介绍一种基于采样点级别的pitch调整算法。代码细节和具体例子均位于 [Pitch_and_Duration_tuner](https://github.com/Liu-Feng-deeplearning/Pitch_and_Duration_Tuner)
 
-#### 基频提取器
-什么是基频/f0/pitch
+### 基频提取器
+
+什么是 f0/pitch 以及一些基础的提取方法 [参考链接](http://blog.kingway.fun/2020/04/26/ASR/kaldi-pitch/)
 
 几个常用的提取基频库。具体原理可以参考对应文档。为了调用方便，针对前三种方法，我写成了对应python的封装。
 - SPKT
@@ -22,7 +28,7 @@ Pitch/F0 目前已经成为了语音中非常常用的特征，特别是针对�
 在性能方面，pyworld明显速度快于其他算法。
 
 
-#### Pitch Tuner 
+### Pitch Tuner 
 
 常见的Pitch修改器一般都是seq级别的，例如sox/ffmpeg/Sptk。
 某些特定的场景下，我们需要一个采样点级别的pitch修改器，可以更灵活的对音频中某一段的基频进行修改。
@@ -37,7 +43,7 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 
 具体使用方法和更多例子，可以参考git项目。
 
-#### 其他功能
+### 其他功能
 
 **Duration Tuner**
 

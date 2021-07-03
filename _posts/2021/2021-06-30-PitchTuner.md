@@ -51,3 +51,5 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 类似的，不仅可以调基频，也可以点对点的调整duration（调速）。调用接口类似。不过这里要注意的是，速度调整是连续渐变的。
 
 例如，对于1s的音频，如果在0.3s处希望duration为原来的2倍，那么，总音频时长为 1.5s(=(1.0+2.0)x0.3x0.5+(1.0+2.0)x0.7x0.5)
+
+![many-faces-of-RL](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png?raw=true)

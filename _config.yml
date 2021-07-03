@@ -105,7 +105,7 @@ gitment:
 # https://github.com/gitalk/gitalk#install
 gitalk:
     owner: Liu-Feng-deeplearning
-    repo: Liu-Feng-deeplearning:BlogComment
+    repo: Liu-Feng-deeplearning.github.io
     clientID: Iv1.8ce95076d61852f2
     clientSecret: 78d18b39ed5b9a5e668718a6d2753b0537457cb2
 

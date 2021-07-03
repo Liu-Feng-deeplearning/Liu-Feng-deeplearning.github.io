@@ -52,16 +52,10 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 
 类似的，不仅可以调基频，也可以点对点的调整duration（调速）。调用接口类似。不过这里要注意的是，速度调整是连续渐变的。
 
-例如，对于1s的音频，如果在0.3s处希望duration为原来的2倍，那么，总音频时长为 1.5s(=(1.0+2.0)x0.3x0.5+(1.0+2.0)x0.7x0.5)
-
-### 测试音频
-
-
-​<audio id="audio" controls="" preload="none">
-      <source id="wav" src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/audio/x.wav">
-</audio>
-
-xxx
-### 测试图像
-
-![test](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png)
+一个例子，对于2.5s的音频，希望在1.0s处duration变为原来的二倍。同时，在0~0.5s/1.0~2.5s音频不变。可以使用参数
+[(0.5, 1.0), (1.0, 2.0), (1.5, 1.0)]
+变换之后的音频总时长为 3.0s (= 0.5 + (1.0 + 2.0) x 0.5 x 0.5 + (1.0 + 2.0) x 0.5 x 0.5 + 1.0)
+变换前后音频图像如下（为方便显示，纵轴为能量，并经过了降采样。）
+<div align=center>
+    <img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_dur_by_point.png" width=40% />
+</div>

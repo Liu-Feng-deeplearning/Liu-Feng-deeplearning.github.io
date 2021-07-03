@@ -105,9 +105,10 @@ gitment:
 # https://github.com/gitalk/gitalk#install
 gitalk:
     owner: liufeng
-    repo: blog-comments
+    repo: Liu-Feng-deeplearning:BlogComment
     clientID: Iv1.8ce95076d61852f2
     clientSecret: 78d18b39ed5b9a5e668718a6d2753b0537457cb2
+
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
 

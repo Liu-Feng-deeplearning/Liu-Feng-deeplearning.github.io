@@ -46,7 +46,9 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
     <img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png" width=40% />
 </div>
 
-![many-faces-of-RL](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png)
+xxx
+
+![test](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png)
 
 
 具体使用方法和更多例子，可以参考git项目。

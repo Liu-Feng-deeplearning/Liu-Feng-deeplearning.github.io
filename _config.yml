@@ -106,8 +106,8 @@ gitment:
 gitalk:
     owner: liufeng
     repo: blog-comments
-    clientID: ca4598e672bce6a2e7c7
-    clientSecret: 8daa564a7d0c2e664c5771ab2869dd7041345b09
+    clientID: Iv1.8ce95076d61852f2
+    clientSecret: 78d18b39ed5b9a5e668718a6d2753b0537457cb2
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
 
@@ -116,7 +116,7 @@ lazy_load_disqus : false
 # ---------------- #
 simple_jekyll_search:
     # 是否支持全文搜索
-    fulltext: false
+    fulltext: true
     # 最多显示多少条搜索结果
     limit: 10
 

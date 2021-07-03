@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Pitch Tuner
-categories: 信号处理
+categories: 语音信号处理
 description:  
-keywords: 信号处理
+keywords: 语音信号处理
 ---
 
 基于 Psola 采样点级别的 Pitch 调整算法。

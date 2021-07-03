@@ -60,7 +60,7 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 - z
 
 ​<audio id="audio" controls="" preload="none">
-      <source id="mp3" src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/audio/x.wav">
+      <source id="wav" src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/audio/x.wav">
 </audio>
 
 xxx

@@ -46,7 +46,7 @@ xxx
 ---
 ### qq
 
-![test](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png =120)
+![test](https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png =120x)
 
 
 具体使用方法和更多例子，可以参考git项目。

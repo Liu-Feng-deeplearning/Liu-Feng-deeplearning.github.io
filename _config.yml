@@ -14,6 +14,30 @@ timezone: Asia/Shenzhen
 encoding: "utf-8"
 side_bar_repo_limit: 5
 
+# 可选组件配置
+components:
+    # 分享
+    # weibo,qq,wechat,douban,qzone,linkedin,facebook,twitter
+    share:
+        enabled: false
+        hide-platforms: qq,facebook
+    # 不蒜子访问统计
+    busuanzi:
+        enabled: false
+        start_date: 2020-05-03
+    # My Popular Repositories
+    side_bar_repo:
+        enabled: true
+        limit: 5
+    # 文章字数统计
+    word_count:
+        enabled: true
+    # 页面右上角，以及「关于」页面的二维码
+    # 修改图片请替换 assets/images/qrcode.jpg
+    qrcode:
+        enabled: true
+        image_alt: 闷骚的程序员
+
 # ---------------- #
 #      Author      #
 # ---------------- #

@@ -1,9 +1,9 @@
 ---
 layout: post
 title: start-my-blog
-categories: others
+categories: 前端
 description: introduction
-keywords: 中文写作规范
+keywords: 前端技术，中文写作规范
 ---
 
 要简洁，要清晰，要有干货！！

@@ -6,7 +6,7 @@ description: introduction
 keywords: 前端技术，中文写作规范
 ---
 
-要简洁，要清晰，要有干货！！
+快速搭建博客，与写作规范。
 
 ### 快速搭建git-pages
 

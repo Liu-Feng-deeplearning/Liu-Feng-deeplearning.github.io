@@ -38,10 +38,7 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 
 一个例子：将音频0.5～1.5s部分基频提升10%。实现前后基频图像如下
 
-<div align=center>
-    <img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png" width=40% />
-</div>
-
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_pitch_by_point.png?raw=true" width="500" /></div>
 
 
 具体使用方法和更多例子，可以参考git项目。
@@ -58,8 +55,8 @@ Praat是其中一个，它提供了比较灵活的pitch-tuner接口。
 变换之后的音频总时长为 3.0s (= 0.5 + (1.0 + 2.0) x 0.5 x 0.5 + (1.0 + 2.0) x 0.5 x 0.5 + 1.0)
 变换前后音频图像如下（为方便显示，纵轴为能量，并经过了降采样。）
 
-<div align=center>
-    <img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_dur_by_point.png" width=40% />
-</div>
+
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/test_dur_by_point.png?raw=true" width="500" /></div>
+
 
 ---

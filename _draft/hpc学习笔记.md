@@ -1,11 +1,12 @@
-# Hpc 学习笔记
+# CS267 学习笔记 high-performance-computing
 
 
 
-CS267 笔记
+
 https://sites.google.com/lbl.gov/cs267-spr2021
 
-## Lec1～4
+---
+## Lec1～3 基础知识
 
 **Lec1**
 
@@ -44,42 +45,39 @@ roofline model介绍:
 
 <div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-08-21-hpc-roofline.png?raw=true" width="500" /></div>
 
+---
+
+## Lec4～6 OpenMp
+
+**Lec4**
+
+- pthread 及各种锁，mutex的用法。知乎上一个讲的不错的文章，可以用来作补充材料。https://zhuanlan.zhihu.com/p/112297714
+- OpenMp 简介 and usage
+- SMP-share memory program 的实现
+- False Sharing 介绍和解决办法
 
 
+False Sharing 是很多情况下并行不起作用的根源:
 
-
-Lec4
-
-pthread 及各种锁，mutex的用法
-https://zhuanlan.zhihu.com/p/112297714
-
-OpenMp 简介 and usage
-
-SMP-share memory program 用法
-
-并行不起作用的根源：
-fase sharing:
 L1 cache line 有大小（64bytes）。在同一个cache line的不同变量不是独立的，系统对整个cacheline有标签。
-所以必行计算时，如果不同的变量位于同一个cache line内，会发生数据竞争。
-一个帮助理解的文章：https://zhuanlan.zhihu.com/p/85984250
+所以必行计算时，如果不同的变量位于同一个 cache line内，会发生数据竞争。
+帮助理解的文章：https://zhuanlan.zhihu.com/p/85984250
 
-OpenMp 需要在实践中练习。
-一些例子对比openmp中各种trick的用法。
+这章结合数值积分的例子，包括了大量 OpenMp 的例子。需要在实践中多练习，
+才能逐渐掌握里面的各种 trick 
 
+**Lec5**
 
---------------------------------------------------------------------------------
-Lec5
+一些并行计算的例子例子简介
 
-一些例子。。。
-Lec6
-n-body 问题
+**Lec6**
 
-PDE问题
+结合 n-body 问题和 PDE 问题具体介绍。
 
-Jim Demmel 好像更偏传统工程学
+感觉上，Jim Demmel 好像更偏传统工程学一些，他的课程部分里没有讲和神经网络相关的部分。
 
 --------------------------------------------------------------------------------
-Lec7
+## Lec7～Lec8 GPU and cuda
 
 Cpu和gpu架构上的区别
 gpu的基本简介

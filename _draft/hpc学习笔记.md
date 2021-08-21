@@ -1,9 +1,16 @@
-# CS267 学习笔记 high-performance-computing
+---
+layout: post
+title: 高性能计算学习笔记(CS267)
+categories: 高性能计算
+description: 
+keywords: 深度学习，高性能计算
+---
+最近假期在家，抽空又过了一遍 cs267 ， 虽然高性能计算相关知识平时工作项目中经常用到，
+但在实践基础上重新学一下理论，有助于知识体系结构的系统化和条理化，感觉还是很有收获。
 
+课程地址 https://sites.google.com/lbl.gov/cs267-spr2021
 
-
-
-https://sites.google.com/lbl.gov/cs267-spr2021
+记录了 lecture 核心要点作为此 post，后续陆续更新。
 
 ---
 ## Lec1～3 基础知识

@@ -139,7 +139,7 @@ for i in range(1000):
 
 ### 假设检验
 
-在 webrtc 代码中，使用假设检验来判断。
+在 webrtc 代码中，使用假设检验来判断。假设检验的判断公式如下：
 
 ```math
 log_likelihood_ratio = log2(Pr{X|H1} / Pr{X|H0})

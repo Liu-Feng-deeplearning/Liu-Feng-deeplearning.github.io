@@ -8,7 +8,6 @@ keywords: 语音信号处理， VAD
 
 简单的 vad 算法，有时可以却起到意想不到的效果。
 
-
 VAD-Voice Active Detection. 几乎所有的语音任务中，都可以见到VAD的身影。
 在编解码问题中，vad可应用于低码率编码静音段数据减少网络数据传输。
 在ASR中，vad可以用来定位音频起始时间，大幅度提升系统rtf。
@@ -23,8 +22,10 @@ DNN-base or 更复杂的vad算法大行其道，数据驱动下，vad可以做�
 例如现代asr系统中，一个合理的选择就是前端的轻量级vad+后端足够鲁棒的asr模型，而不是一个较重的前端降噪系统。
 
 
-### python implement
+update(20210810): 补充了自适应vad参数的相关内容
 
+
+## base python implement
 
 完整项目和更多细节可以参考[我的github项目](https://github.com/Liu-Feng-deeplearning/Energy_Based_VAD)
 
@@ -49,6 +50,55 @@ sil_endpoints = [(_s, _e) for _s, _e in sil_endpoints if _e - _s > 1]
 与此同时，对核心代码进行了上层封装，使之可以支持采样点和mel谱两种输入，同时实现了离线和流式两种封装接口以方便使用。
 根据以往的项目经验，提供一些常用的经验参数可供使用。
 
+## vad 参数设置和自适应方法
+
+energy-based-vad 算法中，可以看出核心参数就是确认能量阈值。
+不同的噪声水平该值可能会对应不同的值，实际使用中，选择合理的取值可能需要花一些时间和心思。
+
+对自动取值进行了一些探索。
+
+### webrtcvad 解析
+
+首先，去读了一下 webrtc 中的 vad 算法，其重点就是流式场景下 vad 阈值的自适应，
+算法层面有一些精彩的处理，感觉还是很有收获。
+
+总结一些核心要点，当然更多细节尽在 [webrtc-vad 源码](https://github.com/wiseman/py-webrtcvad/blob/e283ca41df3a84b0e87fb1f5cb9b21580a286b09/cbits/webrtc/common_audio/vad/vad_core.c)
+
+- 音频无论输入采样率，都降低到8k采样率，不影响效果
+- 使用了子带能量来代替了总能量
+（6个不同的子带，80～250，250～500，500～1000，1000～2000，2000～3000，3000～4000）。
+考虑到交流电带来50hz的干扰，下限频率设置的不能过低。
+对每个子带能量进行判断，如果有一个子带能量超过阈值，则判定为speech。
+- 假设了noise和speech都服从正态分布，整个信号能量分布是两个正态分布的叠加。
+- 经典的EM算法，更新两个正态分布的均值和方差。
+随着时间演进更新迭代参数，意味这参数可以对噪声自适应。
+- 采用了假设检验的方法（likelihood ratio test with hypothesis）。
+
+当然还有一些编程技巧和数值计算上的trick，这里就不列出。
+
+gmm-vad 的核心思想和主要优势是针对流式场景不同复杂环境下的自适应参数，
+这可能是nn-vad不太好处理的情况。
+
+### 基于统计的vad参数确认方法
+
+对于离线场景来说，我们不需要考虑那么多。但希望能借鉴自适应参数这个优点。
+或者至少可以对批量数据自动生成对应能量阈值。
+ 
+根据 webrtc-vad 的想法，我们首先看下对噪声水平相近的一批数据，在能量分布上是否满足 混合高斯分布(K=2)的假设。
+
+这是某个公开tts数据集(bzn)的分布，相对比较干净
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-04-19-vad_bzn.png?raw=true" width="600" /></div>
+
+某个实际业务数据集(代号lx)的分布，噪声相对比较多
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-04-19-vad_lx.png?raw=true" width="600" /></div>
+
+很容易看出，混合高斯模型假设基本成立，可以看到明显的两个峰值。肉眼即可大致看出两个分布的均值。
+同时，两个数据集的分布有明显的差异，对于干净数据集，两个正态分布重叠部分较小。
+
+---
+
+## application 基本应用场景
+
 ### offlineVAD and onlineVAD
 
 - offlineVAD 使用单条音频的最大能量作为基准值，onlineVAD 人为给定全局能量基准值。
@@ -66,14 +116,12 @@ sil_endpoints = [(_s, _e) for _s, _e in sil_endpoints if _e - _s > 1]
 
 - 截取训练数据中过多的静音段，避免标签的不平衡（静音段占比过大），提高模型鲁棒性。
 特别是针对 wrnn 等自回归类声码器（wrnn）。
-- vad获得背景杂音，使用谱减法对音频进行降噪。（和解码中先生成静音bias，在用实际生成语音减掉bias类似。）
+- vad获得背景杂音，使用谱减法对音频进行降噪。（和解码中先生成静音bias，再用实际生成语音减掉bias类似。）
 - 推理过程中使用基于频谱的vad算法，提高推理速度。特别是在流式场景下，省掉首片解码中的静音段可以大幅降低开销。
 - 在自回归类声码器中(wrnn)，根据vad结果，重置gru/lstm的memory，缓解解码阶段超长音频带来的影响。
-
 
 ### vad for vc
 
 与asr类似，使用 vad 对输入音频进行预处理。vad切分，可以避免过长的音频，减轻转换模型的负担。
 同时，使用 vad 过滤掉静音段（以及含有微小噪声的非语音段），可以达到降噪并提高 rtf 的效果。一举两得。
-
 

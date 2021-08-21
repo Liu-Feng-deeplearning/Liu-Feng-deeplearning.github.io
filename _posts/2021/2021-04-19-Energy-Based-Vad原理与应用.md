@@ -3,10 +3,11 @@ layout: post
 title: Energy Based Vad 原理与应用
 categories: 语音信号处理
 description:  
-keywords: 语音信号处理， VAD
+keywords: 语音信号处理， VAD，webrtc
 ---
+Energy-Based-Vad 原理与应用。
 
-简单的 vad 算法，有时可以却起到意想不到的效果。
+update(20210810): 补充了自适应vad参数的相关内容
 
 VAD-Voice Active Detection. 几乎所有的语音任务中，都可以见到VAD的身影。
 在编解码问题中，vad可应用于低码率编码静音段数据减少网络数据传输。
@@ -20,9 +21,6 @@ DNN-base or 更复杂的vad算法大行其道，数据驱动下，vad可以做�
 
 这篇post会更多讲一下基于信号处理中VAD算法的实现和应用。
 例如现代asr系统中，一个合理的选择就是前端的轻量级vad+后端足够鲁棒的asr模型，而不是一个较重的前端降噪系统。
-
-
-update(20210810): 补充了自适应vad参数的相关内容
 
 
 ## base python implement

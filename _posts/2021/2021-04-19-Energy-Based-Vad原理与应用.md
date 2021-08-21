@@ -5,7 +5,6 @@ categories: 语音信号处理
 description:  
 keywords: 语音信号处理， VAD，webrtc
 ---
-Energy-Based-Vad 原理与应用。
 
 update(20210810): 补充了自适应vad参数的相关内容
 

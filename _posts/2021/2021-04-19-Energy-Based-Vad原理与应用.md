@@ -95,6 +95,94 @@ gmm-vad 的核心思想和主要优势是针对流式场景不同复杂环境下
 很容易看出，混合高斯模型假设基本成立，可以看到明显的两个峰值。肉眼即可大致看出两个分布的均值。
 同时，两个数据集的分布有明显的差异，对于干净数据集，两个正态分布重叠部分较小。
 
+（这似乎是一个有效的判断数据集噪声水平的方法？）
+
+### solve mixed-GMM
+
+使用EM算法求解混合高斯模型。
+
+```python
+import numpy as np
+
+def Normal(x, mu, sigma):  # 一元正态分布概率密度函数
+  return np.exp(-(x - mu) ** 2 / (2 * sigma ** 2)) / (
+      np.sqrt(2 * np.pi) * sigma)
+
+N = np.size(data)      
+Mu = np.array([[-60.0, -10]])
+SigmaSquare = np.array([[100, 100]])
+Alpha = np.array([[0.5, 0.5]])
+
+for i in range(1000):    
+    # Expectation
+    gauss1 = Normal(data, Mu[0][0], np.sqrt(SigmaSquare[0][0]))  
+    gauss2 = Normal(data, Mu[0][1], np.sqrt(SigmaSquare[0][1]))  
+    Gamma1 = Alpha[0][0] * gauss1
+    Gamma2 = Alpha[0][1] * gauss2
+    M = Gamma1 + Gamma2
+        
+    # Maximization, update SigmaSquare, mu and alpha    
+    SigmaSquare[0][0] = np.dot((Gamma1 / M).T, (data - Mu[0][0]) ** 2) / np.sum(
+      Gamma1 / M)
+    SigmaSquare[0][1] = np.dot((Gamma2 / M).T, (data - Mu[0][1]) ** 2) / np.sum(
+      Gamma2 / M)
+        
+    Mu[0][0] = np.dot((Gamma1 / M).T, data) / np.sum(Gamma1 / M)
+    Mu[0][1] = np.dot((Gamma2 / M).T, data) / np.sum(Gamma2 / M)
+        
+    Alpha[0][0] = np.sum(Gamma1 / M) / N
+    Alpha[0][1] = np.sum(Gamma2 / M) / N
+
+    if i % 10 == 0:
+      print("第", i, "次迭代:")
+      print("Mu:", Mu)
+      print("Sigma:", np.sqrt(SigmaSquare))
+      print("Alpha", Alpha)
+```
+
+### 假设检验
+
+在 webrtc 代码中，使用假设检验来判断。
+
+```math
+log_likelihood_ratio = log2(Pr{X|H1} / Pr{X|H0})
+```
+求得混合高斯腹部的 mu 和 sigma 后，很容易求得对应的 log_likelihood_ratio
+
+对于不同的mode，使用不同的llr阈值即可。(即代码中的kLocalThresholdQ)
+
+```text
+// Constants used in WebRtcVad_set_mode_core().
+//
+// Thresholds for different frame lengths (10 ms, 20 ms and 30 ms).
+//
+// Mode 0, Quality.
+static const int16_t kOverHangMax1Q[3] = { 8, 4, 3 };
+static const int16_t kOverHangMax2Q[3] = { 14, 7, 5 };
+static const int16_t kLocalThresholdQ[3] = { 24, 21, 24 };
+static const int16_t kGlobalThresholdQ[3] = { 57, 48, 57 };
+// Mode 1, Low bitrate.
+static const int16_t kOverHangMax1LBR[3] = { 8, 4, 3 };
+static const int16_t kOverHangMax2LBR[3] = { 14, 7, 5 };
+static const int16_t kLocalThresholdLBR[3] = { 37, 32, 37 };
+static const int16_t kGlobalThresholdLBR[3] = { 100, 80, 100 };
+// Mode 2, Aggressive.
+static const int16_t kOverHangMax1AGG[3] = { 6, 3, 2 };
+static const int16_t kOverHangMax2AGG[3] = { 9, 5, 3 };
+static const int16_t kLocalThresholdAGG[3] = { 82, 78, 82 };
+static const int16_t kGlobalThresholdAGG[3] = { 285, 260, 285 };
+// Mode 3, Very aggressive.
+static const int16_t kOverHangMax1VAG[3] = { 6, 3, 2 };
+static const int16_t kOverHangMax2VAG[3] = { 9, 5, 3 };
+static const int16_t kLocalThresholdVAG[3] = { 94, 94, 94 };
+static const int16_t kGlobalThresholdVAG[3] = { 1100, 1050, 1100 };
+```      
+
+可以通过此方法，反推求出 signal-energy-based threshold 
+
+实际中，也可以粗略得，直接从 hist 直方图中，找到两个正太分布的交点
+（两个尖峰中间波谷的最低点）作为 threshold 
+
 ---
 
 ## application 基本应用场景

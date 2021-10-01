@@ -8,7 +8,7 @@ keywords: CPP
 
 "Effective c++ 改善程序与设计的55个具体做法" by Scott Mayers（侯捷）
 
-我自己总结的，Python 和 C++ 两门编程语言一个很大的区别：做一件事情，Python 可能有 a/b 两种做法，
+Python 和 C++ 两门编程语言一个很大的区别：做一件事情，Python 可能有 a/b 两种做法，
 a 是朴素直观的实现，但 b 是更 pythonic 的方案，推荐绝大多数情况下使用 b 方法。同样的事情，
  C++ 有 a/b/c/d/e/f/g 等方法，ab 是正确的方法，c 有内存溢出的隐患，defg 等是更高级别的用法。
 不同的方法在不同的场景下各有优劣。如果水平有限，为了避免出错，就用最简单基础的方法 a 吧。（菜！）
@@ -20,7 +20,7 @@ a 是朴素直观的实现，但 b 是更 pythonic 的方案，推荐绝大多�
 
 ---
 ## ch1 让自己习惯 c++
-### item 1 联邦语言
+**item 1 联邦语言**
 
 Cpp 的四个次语言：
 - C
@@ -30,7 +30,7 @@ Cpp 的四个次语言：
 
 目前来说，貌似可能对 124 还用的多一些，Template 目前用得极少，可能后面找机会多深入看下。
 
-### item 2 尽量以 const enum inline 代替 define
+**item 2 尽量以 const enum inline 代替 define**
 
 文如其名。
 

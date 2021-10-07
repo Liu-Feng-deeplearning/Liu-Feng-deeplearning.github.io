@@ -46,19 +46,13 @@ step1:
 首先，因为u是第一个不满足此性质的点，所以$x.d=\delta(x, s)$
 x是y的前驱节点，则有 s～x 也是最短路径，$\delta(s, x) = x.d$, 从而有
 ，
-那么，一定有 $\delta(s, y) <= \delta(s, x) + w(x, y)$ = x.d + w(w, y) = y.d <=。
+那么，一定有 $y.d <= x.d + w(x, y) = delta(x, d) + w(x, y) = delta(y.d)$, 
+（relax操作保证了第一个不等式成立）
+最后一个等号成立的原因是，最短路径上的子路径也一定是最短的。
 
-一定有 delta(x, d) + w(x, y) = delta(y.d)
+另一方面
+$y.d >= delta(y, d)$
 
-y.d <= x.d + w(x, y) = delta(x, d) + w(x, y) = delta(y.d) 
-
-ling
-y.d >= delta(y, d)
-
-
-===
-这是因为 $\delta(s, y) <= \delta(s, x) + w(x, y)$, 若等号不成立，则存在另一条边
-s～x2-y，使得等号成立，这与x的选取矛盾。
 从而 step1成立。
 
 step2: 
@@ -74,257 +68,187 @@ step2:
 
 https://leetcode-cn.com/problems/word-ladder/submissions/
 
-d
+**127. 单词接龙**   
+
+字典 wordList 中从单词 beginWord 和 endWord 的 转换序列 是一个按下述规格形成的序列：
+
+序列中第一个单词是 beginWord 。
+序列中最后一个单词是 endWord 。
+每次转换只能改变一个字母。
+转换过程中的中间单词必须是字典 wordList 中的单词。
+给你两个单词 beginWord 和 endWord 和一个字典 wordList ，找到从 beginWord 到 endWord 的 最短转换序列 中的 单词数目 。如果不存在这样的转换序列，返回 0。
+
+输入：beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+输出：5
+解释：一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog", 返回它的长度 5。
+
+解答：
+
+这当然是一个并不复杂的题目，bfs + 哈希即可。每次迭代将可以转换的元素加入一个hash序列，判断是否
+输出词是否在hash序列内即可。双向搜索还能更快一点。
+
+为了熟悉 dijkstra 算法，特意找只鸡用牛刀试试。
+
+建立一个无向无环图，可以转换的两个词之间有边相连（权重为1），其余词之前无边（权重为∞）。
+下大概写下过程来帮助更好的理解。
+
+#### 建图
+
+```text     
+if(find(wordList.begin(), wordList.end(), endWord)==wordList.end()){
+  return 0;  // 特殊case判断，终点词不在图内
+}
+    
+wordList.emplace_back(beginWord);  // 把起始词加入wordlist，这样处理起来会更简单
+int n_words = wordList.size();
+vector<vector<int>> edge(n_words, vector<int>());  // construct graph
+for (int i=0;i<n_words;i++){
+  for (int j=i+1;j<n_words;j++){        
+    // cout<<i<<"|"<<j<<"|"<<diff_word(wordList[i], wordList[j])<<endl;
+    if (diff_word(wordList[i], wordList[j])){
+      edge[i].emplace_back(j);          
+      edge[j].emplace_back(i);
+    }
+  }      
+}
+
+// 确定图的起始节点和终止节点     
+int start_idx = -1;
+for(int i=0;i<n_words;i++){
+  if (wordList[i]==beginWord){
+    start_idx = i;
+  }
+}
+int end_idx = -1;
+for(int i=0;i<n_words;i++){
+  if (wordList[i]==endWord){
+    end_idx = i;
+  }
+}
+    
+unordered_set<int> S; 
+unordered_set<int> Q;  // V-S
+vector<int> d(n_words, n_words+1);  // for distance 
+... 
+...
+
+bool diff_word(string a, string b){
+  int n = a.size();
+  int dif = 0;
+  for(int i=0;i<n;i++){
+    if (a[i]!=b[i]){
+      dif++;
+      if (dif==2) return false;
+    }
+  }
+  return true;
+}
+```
+
+#### 初始化
+
+初始点
 
 ```text
-class Solution {
-public:
-    static bool compare(vector<int> a, vector<int> b){
-      return a[1]<b[1];
-    }
+S.insert(start_idx);    
+for(int j=0;j<edge[start_idx].size();j++){      
+  d[edge[start_idx][j]] = 1;
+  d[start_idx]=0;
+}
 
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-    // using Dijkstra 
-    if(find(wordList.begin(), wordList.end(), endWord)==wordList.end()){
-      return 0;
-    }
-    // if(find(wordList.begin(), wordList.end(), beginWord)==wordList.end()){
-    //   return 0;
-    // }
-    wordList.emplace_back(beginWord);
-    int n_words = wordList.size();
-    vector<vector<int>> edge(n_words, vector<int>());  // construct graph
-    for (int i=0;i<n_words;i++){
-      for (int j=i+1;j<n_words;j++){        
-        // cout<<i<<"|"<<j<<"|"<<diff_word(wordList[i], wordList[j])<<endl;
-        if (diff_word(wordList[i], wordList[j])){
-          edge[i].emplace_back(j);          
-          edge[j].emplace_back(i);
-        }
-      }      
-    }
-    // Test graph    
-    // for (int i=0;i<n_words;i++){
-    //   cout << i<< ":";
-    //   for (int j=0;j<edge[i].size();j++){
-    //     cout << edge[i][j];
-    //   }
-    //   cout << endl;
-    // }
+for(int i=0;i<n_words-1;i++){
+  Q.insert(i);
+  // heap.push({d[i], i});
+}
+```
 
-    int start_idx = -1;
-    for(int i=0;i<n_words;i++){
-      if (wordList[i]==beginWord){
-        start_idx = i;
-      }
+#### 朴素实现
+
+```text    
+while(Q.size()>0){  
+  // u = Extract-MIN(Q)
+  int u_idx = -1; int min_val = n_words+1;
+  for(auto it=Q.begin();it!=Q.end();it++){
+    int idx_q = *it; // todo        
+    if (d[idx_q]<min_val){
+        min_val = d[idx_q];
+        u_idx = idx_q;
+        // break;            
     }
-    int end_idx = -1;
-    for(int i=0;i<n_words;i++){
-      if (wordList[i]==endWord){
-        end_idx = i;
-      }
+  }
+  
+  if (u_idx==-1 || find(S.begin(), S.end(), end_idx)!=S.end()){
+    break;  // 剪枝
+  }  
+  
+  // Update
+  S.insert(u_idx);
+  Q.erase(u_idx);      
+  
+  // RELAX for edge  
+  int u_size = edge[u_idx].size();
+  for (int i=0;i<u_size;i++){
+    int v_idx = edge[u_idx][i];
+    if (d[v_idx]>d[u_idx]+1){
+      d[v_idx] = d[u_idx] + 1;                
     }
-    // cout<<"start and end:"<<start_idx<<" " << end_idx << endl;
-    
-    unordered_set<int> S;
-    unordered_set<int> Q;  // V-S
-    vector<int> d(n_words, n_words+1);
-    typedef pair<int, int> PII; 
-    priority_queue<PII, vector<PII>, greater<PII> > heap;
-    
-    S.insert(start_idx);
-    
+  } 
 
-    for(int j=0;j<edge[start_idx].size();j++){      
-      d[edge[start_idx][j]] = 1;
-      d[start_idx]=0;
-    }
-
-    for(int i=0;i<n_words-1;i++){
-      Q.insert(i);
-      // heap.push({d[i], i});
-    }
-    
-    while(Q.size()>0){
-      // cout<<"Q:";
-      // for(auto it=Q.begin();it!=Q.end();it++){
-      //   cout<<*it;
-      // }
-      // cout<<endl;
-      
-      // cout<<"S:";
-      // for(auto it=S.begin();it!=S.end();it++){
-      //   cout<<*it;
-      // }
-      // cout<<endl;
-
-      // u = Extract-MIN(Q)
-      int u_idx = -1; int min_val = n_words+1;
-      for(auto it=Q.begin();it!=Q.end();it++){
-        int idx_q = *it; // todo        
-        if (d[idx_q]<min_val){
-            min_val = d[idx_q];
-            u_idx = idx_q;
-            // break;            
-        }
-      }
-      // cout<<"find u_idx:"<<u_idx<<":"<<endl;
-
-      if (u_idx==-1){
-        break;
-      }
-      // exit(1);
-
-      S.insert(u_idx);
-      Q.erase(u_idx);      
-      
-      // RELAX for edge
-      // vector<int> adj = edge[u_idx];
-      int u_size = edge[u_idx].size();
-      for (int i=0;i<u_size;i++){
-        int v_idx = edge[u_idx][i];
-        if (d[v_idx]>d[u_idx]+1){
-          d[v_idx] = d[u_idx] + 1;
-          // cout<<"updata:"<<v_idx<<"|"<<d[v_idx]<<endl;          
-        }
-      }
-
-      if(find(S.begin(), S.end(), end_idx)!=S.end()){
-        break;
-      }
-    }
-
-    if (d[end_idx]>n_words-1){      
-      return 0;
-    }
+  if (d[end_idx]>n_words-1){      
+    return 0; // 未联通
+  } else {
     return d[end_idx] + 1;
-    }
-
-    bool diff_word(string a, string b){
-      int n = a.size();
-      int dif = 0;
-      for(int i=0;i<n;i++){
-        if (a[i]!=b[i]){
-          dif++;
-          if (dif==2) return false;
-        }
-      }
-      return true;
-    }
+  }    
 };
 ```
-使用优先队列（pri queue进行 优化）
+使用优先队列（priority queue）进行 优化
 
 ```text
-class Solution {
-public:    
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-    // using Dijkstra 
-    if(find(wordList.begin(), wordList.end(), endWord)==wordList.end()){
-      return 0;
-    }
-    
-    wordList.emplace_back(beginWord);
-    int n_words = wordList.size();
-    int n = beginWord.size();
-    vector<vector<int>> edge(n_words, vector<int>());  // construct graph
-    for (int i=0;i<n_words;i++){
-      for (int j=i+1;j<n_words;j++){                
-        if (diff_word(wordList[i], wordList[j], n)){
-          edge[i].emplace_back(j);          
-          edge[j].emplace_back(i);
-        }
-      }      
-    }
-    // Test graph    
-    // for (int i=0;i<n_words;i++){
-    //   cout << i<< ":";
-    //   for (int j=0;j<edge[i].size();j++){
-    //     cout << edge[i][j];
-    //   }
-    //   cout << endl;
-    // }
+// 使用 vector used 代替 S, pq 代替 Q    
+vector<int> d(n_words, n_words+1);    
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > heap; // 大根堆
+vector<int> used(n_words, 0);
+used[start_idx] = 1;
+int used_total = 1;
 
-    int start_idx = -1;
-    for(int i=0;i<n_words;i++){
-      if (wordList[i]==beginWord){
-        start_idx = i;
-      }
-    }
-    int end_idx = -1;
-    for(int i=0;i<n_words;i++){
-      if (wordList[i]==endWord){
-        end_idx = i;
-      }
-    }
-    // cout<<"start and end:"<<start_idx<<" " << end_idx << endl;
-    
-    // unordered_set<int> S;
-    // unordered_set<int> Q;  // V-S
-    vector<int> d(n_words, n_words+1);    
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > heap;
-    vector<int> used(n_words, 0);
-    used[start_idx] = 1;
-    int used_total = 1;
-    // S.insert(start_idx);
-    
-    d[start_idx]=0;
-    for(int j=0;j<edge[start_idx].size();j++){    
-      int start_adj_idx = edge[start_idx][j];
-      d[start_adj_idx] = 1;
-      heap.push({d[start_adj_idx], start_adj_idx});
-    }
+d[start_idx]=0;
+for(int j=0;j<edge[start_idx].size();j++){    
+  int start_adj_idx = edge[start_idx][j];
+  d[start_adj_idx] = 1;
+  heap.push({d[start_adj_idx], start_adj_idx});
+}
 
-    // for(int i=0;i<n_words-1;i++){
-    //   // Q.insert(i);
-    //   heap.push({d[i], i});
-    // }
-    
-    while(heap.size()>0){                
-      // Extract-MIN(Q)      
-      pair<int, int> q_pair = heap.top();
-      heap.pop();
-      int u_idx = q_pair.second;            
-      if(used[u_idx]==1){  // only for Q: G-S
-        continue;
-      }
-      // cout<<"find u_idx:"<<u_idx<<":"<<d[u_idx]<<endl;
-      
-      // update for S
-      used[u_idx]=1;      
-      used_total++;
-      
-      if(used[end_idx]==1){
-        break;  // 剪枝
-      }
-      
-      // RELAX for edge
-      int u_size = edge[u_idx].size();
-      for (int i=0;i<u_size;i++){
-        int v_idx = edge[u_idx][i];
-        if (d[v_idx]>d[u_idx]+1){
-          d[v_idx] = d[u_idx] + 1;                    
-        }
-        heap.push({d[v_idx], v_idx});     // 有重复计算   
-      }            
+while(heap.size()>0){                
+  // Extract-MIN(Q)      
+  pair<int, int> q_pair = heap.top();
+  heap.pop();
+  int u_idx = q_pair.second;            
+  if(used[u_idx]==1){  // only for Q: G-S
+    continue;
+  }
+、  
+  // update for S
+  used[u_idx]=1;      
+  used_total++;
+  
+  if(used[end_idx]==1){
+    break;  // 剪枝
+  }
+  
+  // RELAX for edge
+  int u_size = edge[u_idx].size();
+  for (int i=0;i<u_size;i++){
+    int v_idx = edge[u_idx][i];
+    if (d[v_idx]>d[u_idx]+1){
+      d[v_idx] = d[u_idx] + 1;                    
     }
+    heap.push({d[v_idx], v_idx});     // 有重复计算   
+  }            
+}
 
-    if (d[end_idx]>n_words-1){      
-      return 0;
-    }
-    return d[end_idx]+1; //  +1- begin_in_dict ;
-    }
-
-    bool diff_word(string& a, string& b, int n){      
-      int dif = 0;
-      for(int i=0;i<n;i++){
-        if (a[i]!=b[i]){
-          dif++;
-          if (dif==2) return false;
-        }
-      }
-      return true;
-    }
-};
-
+if (d[end_idx]>n_words-1){      
+  return 0;
+}
+return d[end_idx] + 1; 
+}
 ```

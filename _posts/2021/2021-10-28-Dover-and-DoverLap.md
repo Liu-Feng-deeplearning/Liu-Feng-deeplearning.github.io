@@ -6,30 +6,39 @@ description:
 keywords: 算法与数据结构
 ---
 
-Dover 算法感觉已经成为 Dihard 比赛里的标配算法了，最近在做一个 Speaker Diarization 算法的综述，
-顺便就看了一下 Dover 算法相关内容记录如下。
+最近花了不少精力在总结整理 speaker diarization 的相关内容，发现了一类专门适合 diarization
+的融合算法，特此记录整理。
 
-Speaker Diarization 问题就不过多介绍了，本质是对给定序列打标签对问题。
+Speaker Diarization 具体问题就不过多介绍了，本质是一个 seq to seq 的问题。
+因此融合算法要比一般的分类问题更复杂一点。
 
-Dover(diarization output voting error reduction) 微软2019年提出的
-多个系统结果融合的一种投票方法，但和一般分类问题不同，
-需要先把不同系统的结果映射到同一个label空间内，因此，流程上分成mapping 和voting 两个部分。
+Dover(diarization output voting error reduction) 算法微软2019年最初提出的一种专门解决
+此类问题的方法。大体思路是先把不同系统的结果映射到同一个 label 空间内，然后在每个时间段内做投票。
 
-[Dover 原始论文](https://www.microsoft.com/en-us/research/uploads/prod/2019/09/DOVER__A_Method_for_Combining_Diarization_Outputs__ASRU_2019.pdf)
+因此，Dover 算法在流程上分成 mapping 和 voting 两个部分。本位先从此算法展开。
 
-### Dover 
+### Dover
+
+[Dover 原始论文](https://www.microsoft.com/en-us/research/uploads/prod/2019/09/DOVER__A_Method_for_Combining_Diarization_Outputs__ASRU_2019.pdf) 
 
 **label-mapping**
 
-目标是把不同系统的结果对应到同一标签空间。采用的方法是，minimizes the total time duration of speaker mismatches
-本质上是一个图论问题，二分图最大权重。可以使用匈牙利算法 https://zhuanlan.zhihu.com/p/96229700
+目标是把不同系统的结果对应到同一标签空间，使得不同系统之间 speaker mismatch 最小。
 
-然后采用 pair wise 方式从两个系统扩展到 N 个系统。这里出现了 DOVER 的第一个缺点，就是这个过程和系统合并的顺序有关。
-其中第一个系统因为要参与后面每次合并过程，因此最为重要。
+首先考虑只有两个系统的情况。开始我以为一个简单的贪心就可以搞定，后来发现好像不行。😭
+这个问题可以抽象成图论中的二分图最大权重问题，进而可以采用匈牙利算法及其扩展方法解决。
+
+这里略过具体的算法细节。一些相关介绍和实现:
+- [匈牙利算法](https://zhuanlan.zhihu.com/p/96229700)
+- [二分图最大权重问题的实现](https://www.cxyzjd.com/article/xiaoli_nu/74011927)
+
+两个系统的 map 解决后，采用 pairwise 方式扩展到 N 个系统。
+这里出现了 DOVER 的第一个缺点，就是这个扩展过程和系统合并的顺序有关。
+第一个出现系统要参与后面每次扩展过程，因此最为重要。
 论文里也提到了，一个策略是找到和其他系统 DER 最小的系统作为初始情况。还有一种方法是将每个系统各自作为初始系统，各跑一轮再取平均（性能会损失一个数量级）。
 
 一个简单的示意图如下，图片来自原始论文：
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-10-28-Dover-and-DoverLap.png?raw=true" width="500" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-10-28-Dover-and-DoverLap.png?raw=true" width="360" /></div>
 
 **voting**
 
@@ -37,13 +46,14 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 
 这里又引出了 DOVER 的另一个缺点，就是投票只取权重最高者，导致难以处理 overlap 的重叠。
 
-鉴于这两个问题，DanPovey 他们提出了一个新的方案：DoverLap
+鉴于这两个问题，Shinji 和 DanPovey 他们提出了一个新的方案：DoverLap
 
 ### Dover Lap
 
+[DoverLap 原始论文](https://danielpovey.com/files/2021_slt_doverlap.pdf)
+
 整体的 pipeline 流程和 Dover 非常像，同样是 mapping 和 voting 两部分。
 
-[DoverLap Paper](https://danielpovey.com/files/2021_slt_doverlap.pdf)
 
 **mapping**
 
@@ -93,9 +103,10 @@ Dover 中，多个识别结果在时间维度上已经同一，但需要在空�
 
 ### 后记
 
-之前看DiHardIII比赛的工程中，貌似Dover以及成为几乎所有参赛队伍的标配了。看上去无脑堆系统总是可以取得更好的效果。
+在 NCMMSC2021-DiHardIII 的报告会上，发现Dover几乎成为所有参赛队伍的标配了。
+据参赛的选手讲，无脑融合总是可以取得比单系统更好的效果（这一点其实我有点存疑）。
 
-不过里面还是又很多有意思的算法上的内容，特别是原始版本Dover里的mapping算法，一开始以为贪心很容易，后来发现还是有点复杂的。
+不过，仔细研究一下，发现融合算法中还是有很多有意思的内容，学习一下还是受益匪浅。
+特别是原始版本 Dover 里的 mapping 算法，一开始以为贪心很容易，后来发现实现有点复杂的。
 
-毕竟没有实际动手写，纸上谈兵，并不确定这篇文章是否正确。
-
+毕竟没有实际动手实践，纸上谈兵，并不确定这篇文章是否正确。

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dover and DoverLap 
+title: 适用于 Speaker Diarization 的融合算法:Dover and DoverLap 
 categories: 算法与数据结构
 description: 
 keywords: 算法与数据结构
@@ -33,6 +33,7 @@ Dover(diarization output voting error reduction) 算法微软2019年最初提出
 - [二分图最大权重问题的实现](https://www.cxyzjd.com/article/xiaoli_nu/74011927)
 
 两个系统的 map 解决后，采用 pairwise 方式扩展到 N 个系统。
+
 这里出现了 DOVER 的第一个缺点，就是这个扩展过程和系统合并的顺序有关。
 第一个出现系统要参与后面每次扩展过程，因此最为重要。
 论文里也提到了，一个策略是找到和其他系统 DER 最小的系统作为初始情况。还有一种方法是将每个系统各自作为初始系统，各跑一轮再取平均（性能会损失一个数量级）。
@@ -46,7 +47,7 @@ Dover(diarization output voting error reduction) 算法微软2019年最初提出
 
 这里又引出了 DOVER 的另一个缺点，就是投票只取权重最高者，导致难以处理 overlap 的重叠。
 
-鉴于这两个问题，Shinji 和 DanPovey 他们提出了一个新的方案：DoverLap
+鉴于以上提到的两个缺点，Shinji 和 DanPovey 他们提出了一个新的方案：DoverLap
 
 ### Dover Lap
 
@@ -54,18 +55,16 @@ Dover(diarization output voting error reduction) 算法微软2019年最初提出
 
 整体的 pipeline 流程和 Dover 非常像，同样是 mapping 和 voting 两部分。
 
-
 **mapping**
 
 这里改进了之前的 pair-wise 方法。
 
 定义 $M(a_0, b_0)$ 为 $a_0$ 和 $b_0$ 之间的重叠段长度，M 越大，说明 $a_0$ 和 $b_0$ 表示同一speaker的可能性越高。
 
-构造一个 N 维向量 $C$ as cost-tensor ，以下为叙述简便，假设只有三个系统。我们可以这样定义：
+构造一个 N 维向量 $C$ as cost-tensor ，以下为叙述简便，假设只有三个系统。我们可以这样定义：(Note: **原文这里有个笔误**)
 
 $$C(a_i, b_j, c_k) = -(M(a_i, b_j)+M(a_i, c_k), M(b_j, c_k))$$
- 
- (Note: **原文这里有个笔误**)
+  
 $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性。
 
 接下来，问题变成需要寻找一组 $S = \{(a_{i0}, b_{j0}, c_{k0}), (a_{i1}, b_{j1}, c_{k1}), ...\}$, 

@@ -64,16 +64,16 @@ $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性
 把 algorithm 部分伪代码重写了一下来加深理解。
 
 ```math
-M = {S}
-R = {empty}
-
-```
-M = phi
-R = all set
+S = {(a_i0, b_j0, c_k0), ...} // 所有可能的情况
+M = {empty}
+R = {S}
 while R is not empty：
   x = find-min（x in R for C（x）// 排序时候就只排那些合法的x
   M = M + x
-  R = remove-union（x） // 包括      
+  R = remove-union（x） // 包括    
+```
+
+  
   
 感觉上，原文这里是使用 sorted，可以改成 privority 队列，速度可以更快。但是，实际场景下，
 K和N往往都很小，所以这里讨论复杂度意义并不是很大。

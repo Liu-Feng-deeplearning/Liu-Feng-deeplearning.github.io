@@ -47,11 +47,7 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 
 这里改进了之前的 pair-wise 方法。
 
-定义 M(a0, b0) 为 a0 和 b0 之间的重叠段长度，M 越大，说明a0和b0表示同一speaker的可能性越高。
-
-$$a_i$$
-$$a_{i0}$$
-
+定义 $M(a_0, b_0)$ 为 $a_0$ 和 $b_0$ 之间的重叠段长度，M 越大，说明 $a_0$ 和 $b_0$ 表示同一speaker的可能性越高。
 
 构造一个 N 维向量 $C$ as cost-tensor ，以下为叙述简便，假设只有三个系统。我们可以这样定义：
 
@@ -60,7 +56,7 @@ $$C(a_i, b_j, c_k) = -(M(a_i, b_j)+M(a_i, c_k), M(b_j, c_k))$$
  (Note: **原文这里有个笔误**)
 $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性。
 
-接下来，问题变成需要寻找一组 $S = {(a_{i0}, b_{j0}, c_{k0}), (a_i1, b_j1, c_k1), ...}$, 
+接下来，问题变成需要寻找一组 $S = \{(a_{i0}, b_{j0}, c_{k0}), (a_{i1}, b_{j1}, c_{k1}), ...\}$, 
 使得 $\Sigma C(S)$ 最小。一个显然的思路是使用贪心算法（原文也是这样做的），按照我自己的理解，
 把 preduso-algorithm 部分重写了一下来加深理解。
 
@@ -79,13 +75,21 @@ while R is not empty：
 
 **voting** 
 
-nT = int（）
-投票过程差别不大，采用 max-n，n通过系数求得来 代替之前的 max 即可
+投票过程和 Dover 差别不大。对每个时间段，通过 rank-weight 求得 $n_{spk}$ 代表同一时刻
+允许的最多说话人数量即可。
 
-**Rover and Dover**
-像微软那篇
+$$ n_{spk} = \Sigma n_k * w_k $$
 
-**后记**
+
+### Rover and Dover
+
+在 Dover 原文中提出了关于 Rover(Recognize output voting error reduction) 和 Dover 方法作为 dual question 的观点，感觉还是有点意思。
+Rover 中，多个识别结果在空间标签上已经统一（对应同一份发音词典），但需要在时间维度做alignment。
+Dover 中，多个识别结果在时间维度上已经同一，但需要在空间标签维度上做 mapping。两者在问题结构上具有高度相似性。
+
+（虽然 duality 好像对解决问题并没有什么帮助？）
+
+### 后记
 
 之前看DiHardIII比赛的工程中，貌似Dover以及成为几乎所有参赛队伍的标配了。看上去无脑堆系统总是可以取得更好的效果。
 

@@ -60,10 +60,14 @@ $$C(a_i, b_j, c_k) = -(M(a_i, b_j)+M(a_i, c_k), M(b_j, c_k))$$
 $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性。
 
 接下来，问题变成需要寻找一组 $S = {(a_i0, b_j0, c_k0), (a_i1, b_j1, c_k1), ...}$, 
-使得 $\Sigma C(S)$ 最小。
+使得 $\Sigma C(S)$ 最小。一个显然的思路是使用贪心算法（原文也是这样做的），按照我自己的理解，
+把 algorithm 部分伪代码重写了一下来加深理解。
 
-这里可以使用贪心算法求解。按照我自己的理解，重写了一下algorithm。不知道对不对
+```math
+M = {S}
+R = {empty}
 
+```
 M = phi
 R = all set
 while R is not empty：

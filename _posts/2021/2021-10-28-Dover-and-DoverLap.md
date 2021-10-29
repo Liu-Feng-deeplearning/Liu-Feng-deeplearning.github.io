@@ -28,12 +28,14 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 其中第一个系统因为要参与后面每次合并过程，因此最为重要。
 论文里也提到了，一个策略是找到和其他系统 DER 最小的系统作为初始情况。还有一种方法是将每个系统各自作为初始系统，各跑一轮再取平均（性能会损失一个数量级）。
 
+一个简单的示意图如下，图片来自原始论文：
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2021/2021-10-28-Dover-and-DoverLap.png?raw=true" width="500" /></div>
+
 **voting**
 
 对齐之后，将整个音频切成若干小段，vote 即可。这里为了防止过多低权重系统对高权重系统的影响，作者提出了 rank-weighting，即对不同排序的系统权重再乘一个系数，从而规避这种影响。
 
 这里又引出了 DOVER 的另一个缺点，就是投票只取权重最高者，导致难以处理 overlap 的重叠。
-
 
 鉴于这两个问题，DanPovey 他们提出了一个新的方案：DoverLap
 

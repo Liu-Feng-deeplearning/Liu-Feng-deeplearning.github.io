@@ -17,6 +17,7 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 
 [Dover 原始论文](https://www.microsoft.com/en-us/research/uploads/prod/2019/09/DOVER__A_Method_for_Combining_Diarization_Outputs__ASRU_2019.pdf)
 
+### Dover 
 
 **label-mapping**
 
@@ -37,7 +38,6 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 鉴于这两个问题，DanPovey 他们提出了一个新的方案：DoverLap
 
 ### Dover Lap
-
 
 整体的 pipeline 流程和 Dover 非常像，同样是 mapping 和 voting 两部分。
 
@@ -77,8 +77,8 @@ while R is not empty：
 速度可以更快一点。但是，在实际场景下，融合系统数 N 和说话人个数往往都很小，常数项开销占比不可忽略，
 所以这里讨论复杂度意义并不是很大。
 
-
 **voting** 
+
 nT = int（）
 投票过程差别不大，采用 max-n，n通过系数求得来 代替之前的 max 即可
 

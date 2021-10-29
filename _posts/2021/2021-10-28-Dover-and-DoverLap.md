@@ -54,7 +54,7 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 
 $a_i$
 
-$C(ai, bj, ck) = -(M(ai, bj)+M(ai, ck), M(bj, ck))$
+$C(a_i, b_j, c_k) = -(M(a_i, b_j)+M(a_i, c_k), M(b_j, c_k))$
  
  (**原文这里有个笔误**)，
 这里，C（ai, bj, ck）刻画了 ai/bj/ck属于同一speaker时的重叠程度。

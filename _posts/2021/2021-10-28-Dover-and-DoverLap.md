@@ -50,9 +50,13 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 定义 M(a0, b0) 为 a0 和 b0 之间的重叠段长度，M 越大，说明a0和b0表示同一speaker的可能性越高。
 
 
-构造一个 N 维向量 C cost-tensor ，以下为叙述简便，假设只有三个系统。
+构造一个 N 维向量 $C$ as cost-tensor ，以下为叙述简便，假设只有三个系统。
 
-C（ai, bj, ck） = -(M(ai, bj)+M(ai, ck), M(bj, ck)) (**原文这里有个笔误**)，
+$a_i$
+
+$C(ai, bj, ck) = -(M(ai, bj)+M(ai, ck), M(bj, ck))$
+ 
+ (**原文这里有个笔误**)，
 这里，C（ai, bj, ck）刻画了 ai/bj/ck属于同一speaker时的重叠程度。
 
 问题变成需要寻找一组 {（ai, bj, ck），（ai, bj, ck）， ...} , 使得 C（S） 最小。

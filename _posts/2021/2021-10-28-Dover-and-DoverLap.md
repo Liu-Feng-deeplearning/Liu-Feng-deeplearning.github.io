@@ -62,22 +62,21 @@ $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性
 
 接下来，问题变成需要寻找一组 $S = {(a_{i0}, b_{j0}, c_{k0}), (a_i1, b_j1, c_k1), ...}$, 
 使得 $\Sigma C(S)$ 最小。一个显然的思路是使用贪心算法（原文也是这样做的），按照我自己的理解，
-把 algorithm 部分伪代码重写了一下来加深理解。
+把 preduso-algorithm 部分重写了一下来加深理解。
 
-```math
-S = {(a_i0, b_j0, c_k0), ...} // 所有可能的情况
+```text
+S = {(a_i0, b_j0, c_k0), ...}  // S 中包括了所有可能的情况
 M = {empty}
 R = {S}
 while R is not empty：
-  x = find-min（x in R for C（x）// 排序时候就只排那些合法的x
-  M = M + x
-  R = remove-union（x） // 包括    
+  x = find-min(C(x) for x in R) // 排序时候就只排那些合法的 x
+  M = M + x  
+  R = remove(R, x) // 这里把 R 中所有和 x 有冲突的都移除    
 ```
+算法的复杂度核心在于第五行的排序。原文这里使用的是 sort，显然如果改成 priority 队列，
+速度可以更快一点。但是，在实际场景下，融合系统数 N 和说话人个数往往都很小，常数项开销占比不可忽略，
+所以这里讨论复杂度意义并不是很大。
 
-  
-  
-感觉上，原文这里是使用 sorted，可以改成 privority 队列，速度可以更快。但是，实际场景下，
-K和N往往都很小，所以这里讨论复杂度意义并不是很大。
 
 **voting** 
 nT = int（）

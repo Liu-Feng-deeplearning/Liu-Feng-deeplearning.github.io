@@ -50,6 +50,7 @@ Dover(diarization output voting error reduction) 微软2019年提出的
 定义 M(a0, b0) 为 a0 和 b0 之间的重叠段长度，M 越大，说明a0和b0表示同一speaker的可能性越高。
 
 $$a_i$$
+$$a_{i0}$$
 
 
 构造一个 N 维向量 $C$ as cost-tensor ，以下为叙述简便，假设只有三个系统。我们可以这样定义：
@@ -59,7 +60,7 @@ $$C(a_i, b_j, c_k) = -(M(a_i, b_j)+M(a_i, c_k), M(b_j, c_k))$$
  (Note: **原文这里有个笔误**)
 $C(a_i, b_j, c_k)$ 刻画了 $Ca_i, b_j, c_k$ 属于同一speaker时的可能性。
 
-接下来，问题变成需要寻找一组 $S = {(a_i0, b_j0, c_k0), (a_i1, b_j1, c_k1), ...}$, 
+接下来，问题变成需要寻找一组 $S = {(a_{i0}, b_{j0}, c_{k0}), (a_i1, b_j1, c_k1), ...}$, 
 使得 $\Sigma C(S)$ 最小。一个显然的思路是使用贪心算法（原文也是这样做的），按照我自己的理解，
 把 algorithm 部分伪代码重写了一下来加深理解。
 

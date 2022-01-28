@@ -8,7 +8,7 @@ menu: 维基
 permalink: /wiki/
 ---
 
-> 人生是一场修行。
+> 人生是一场修行吗？
 
 
 <ul class="listing">

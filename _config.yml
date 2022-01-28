@@ -64,9 +64,9 @@ navs:
      href: /archives/
      label: 归档
 
-  -
-    href: /wiki/
-    label: Wiki
+#  -
+#    href: /wiki/
+#    label: Wiki
 
 #  -
 #    href: /links/

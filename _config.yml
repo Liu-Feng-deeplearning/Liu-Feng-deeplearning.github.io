@@ -60,9 +60,9 @@ navs:
     href: /categories/
     label: Category
 
-#   -
-#     href: /archives/
-#     label: 归档
+   -
+     href: /archives/
+     label: 归档
 
   -
     href: /wiki/

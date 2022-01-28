@@ -1,4 +1,10 @@
-# fusing force-alignment with vad
+---
+layout: post
+title: fusing force-alignment with vad
+categories: 语音信号处理
+description: 
+keywords: 语音信号处理
+---
 
 Force alignment(FA) 是语音领域中一个常见的问题，输入是音频和对应文本字符，
 输出每个字符的起始终止时间戳，相当于将句标签（强标签）转成了帧标签（弱标签）。

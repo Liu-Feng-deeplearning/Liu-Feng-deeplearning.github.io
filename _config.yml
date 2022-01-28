@@ -18,9 +18,9 @@ side_bar_repo_limit: 5
 components:
     # 分享
     # weibo,qq,wechat,douban,qzone,linkedin,facebook,twitter
-    share:
-        enabled: false
-        hide-platforms: qq,facebook
+#    share:
+#        enabled: false
+#        hide-platforms: qq,facebook
     # 不蒜子访问统计
     busuanzi:
         enabled: false
@@ -58,11 +58,11 @@ navs:
 
   -
     href: /categories/
-    label: Category
+    label: 分类
 
-   -
-     href: /archives/
-     label: 归档
+  -
+    href: /archives/
+    label: 归档
 
 #  -
 #    href: /wiki/

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: fusing force-alignment with vad
+title: Fusing Force-Alignment with Vad
 categories: 语音信号处理
 description: 
 keywords: 语音信号处理

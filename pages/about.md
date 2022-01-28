@@ -1,10 +1,10 @@
 ---
 layout: page
-title: About
+title: AboutMe
 description: Share my coding life
 keywords: LiuFeng
-comments: true
-menu: About
+comments: false
+menu: AboutMe
 permalink: /about/
 ---
 

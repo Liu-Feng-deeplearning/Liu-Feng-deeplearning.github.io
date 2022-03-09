@@ -118,16 +118,18 @@ weight =  weigth(uni-gram) + weigth(pos-3gram) * alpha
  
 ### 韵律预测
 
-一般tts 方案中，我们使用四级韵律预测。例如
+一般 tts 方案中，我们常使用四级韵律预测。例如
 ```text
 今天天气很好。-> 今天#2天气#1很好。#4
 ```
-其中，数字越大表示停顿时间越长。有一些情况下，韵律标签比较容易预测。例如每句话的结尾，一定是 #4
+其中，数字越大表示停顿时间越长。有一些情况下，韵律标签比较容易预测。例如每句话的结尾，一定是#4。
+对于有标点的情况，句号/叹号/问号后面一定是#4, 逗号后面是#3等等。
 
-对于有标点的情况 。！？标点后面一定是 #4, "，"末尾一定是 #3 等等。
+这里介绍一个工程里常用的方案: CART, 在 HTS-engine 和 Festival 中，也称其为 Wagon Tree
 
-这里一个工程里常用的做法是使用决策树。
+est-wagon 介绍文档 https://github.com/festvox/speech_tools/blob/master/doc/estwagon.md
 
+注: Protea nitida (Wagon Tree) 南非的一种树，以生长缓慢而出名
 <div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-tree.jpeg?raw=true" width="300" /></div>
 
 决策树相对来说，比较适合于输入特征维度不高，且输入特征和输出有比较线性相关性的数据。
@@ -138,7 +140,7 @@ WagonTree 本质是一颗二叉树。
 
 整个 wagonTree 的流程
 
-est文档： https://github.com/festvox/speech_tools/blob/master/doc/estwagon.md
+
 
 **WagonTree 的构建**
 

@@ -132,15 +132,12 @@ est-wagon 介绍文档 https://github.com/festvox/speech_tools/blob/master/doc/e
 注: Protea nitida (Wagon Tree) 南非的一种树，以生长缓慢而出名
 <div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-tree.jpeg?raw=true" width="300" /></div>
 
-决策树相对来说，比较适合于输入特征维度不高，且输入特征和输出有比较线性相关性的数据。
+相对来说，CART 比较适合于输入特征维度不高，且输入特征和输出有比较线性相关性的数据。
 
-WagonTree 本质是一颗二叉树。
-一般的设计结构包括 node/leave，其中 每个 node 上有一个 question，根据问题的答案流转
-到对应的子结点（这里本质相当于一个 if/else 语句），直到最终到底叶子结点。每个叶子结点对应一个标签。
+WagonTree 本质是一颗二叉树，一般的设计结构包括 node/leave，其中 每个 node 上有一个 question，
+根据问题的答案流转到对应的子结点（相当于每个结点上有一个 if/else 语句），直到叶子结点，每个叶子结点对应一个分类标签。
 
-整个 wagonTree 的流程
-
-
+整个 wagonTree 的流程分成构建和推理两部分。
 
 **WagonTree 的构建**
 

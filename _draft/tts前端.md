@@ -12,37 +12,49 @@ TTS 前端中 NLP 知识
 
 ## 分词
 
-对于中文这种天然没有词边界信息的语言，分词几乎是所有 NLP 问题的基础。
-
-对于分词这一基础问题，可能大家也研究了许多年。具体的分类和基础知识简介，可以参考 
+中文这种天然没有词边界信息的语言，分词几乎是所有 NLP 问题的基础。
+对于分词这一基础问题，大家研究了许多年，具体的分类和一些基础知识简介，可以参考 
 https://lujiaying.github.io/posts/2018/01/Chinese-word-segmentation/
 
-这里介绍实际工程中一种常用的方案- 基于 Uni-gram 和 Pos-Gram 的词图搜索方法。
+这里介绍实际工程中一种常用的方案: **基于 Uni-gram 和 Pos-Gram 的词图搜索方法**
 
-这里我们的输入，构建如下数据：
-1. Word Uni-Gram 词典，包括词性和count
-2。Pos 3Gram 词典
+该方案的输入，包括如下数据
 
-为什么我们不采用 3gram的词典？
-基于语言模型考虑。
+- Word Uni-Gram 词典，包括词性和count
 
-**构建词图**
-这里根据词典构建一个词图。
-每个字为一个顶点(node)，每个句子增加一个额外的开始和结束顶点。
-使用边(arc)连接相邻两个词对应结尾字的顶点。一个样例如图所示。
+```text
+word1, count1, pos1
+word2, count2, pos2
+...
+```
 
-每个从S到E的路径，代表了一种可能的分词。例如，红色 arc 代表了一种分词
+- Pos-3Gram 词典(arpa format)，可选
+
+```text
+pos1, pos2, pos3, count1
+pos1, pos3, pos4, count2
+...
+```
+
+### 构建词图
+对每个输入对句子，根据词典构建对应词图(lattice)。
+
+每个字为一个顶点(node)，每个句子增加一个额外的开始和结束顶点(S and E)，使用边(arc)连接相邻两个词对应结尾字的顶点。一个样例如下所示:
+
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-lattice.png?raw=true" width="800" /></div>
+
+每个从 S 到 E 的路径，代表了一种可能的分词。例如，红色 arc 代表了一种分词:
+
+```text
 今/天天/气/很好
+```
 
-词图结构建成后，我们给每条路径加上对应的权重。
-一种可能的方案，是根据每个词出现的频率高低，赋予权重。
-(实际中常用 该词出现的次数，除以所有词出现总次数再取对数作为权重值)
-这样权重越大的路径，出现几率则越高。
+词图结构建成后，我们给每条路径加上对应的权重。例如，根据每个词出现的频率高低，赋予权重。
+(实际中常用 该词出现的次数，除以所有词出现总次数再取对数作为权重值) 这样权重越大的路径，出现几率则越高。
 
 例如 今天/天气/很好 weight=0.1 + 0.1 + 0.1 = 0。3
 今/天天/气很好 weight=0.2 + 0.1 +0。2 + 0.1 = 0。3
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-lattice.png?raw=true" width="800" /></div>
 
 
 表明上一个选择可能是一个更优的结果。
@@ -50,7 +62,7 @@ https://lujiaying.github.io/posts/2018/01/Chinese-word-segmentation/
 词图其实是一个 DAG (有向无环图)
 
 
-**搜索词图**
+### 搜索词图
 
 这样，我们的任务变成了从所有S到E中，搜索一条权重最大的边。
 怎样来高效的搜索呢？

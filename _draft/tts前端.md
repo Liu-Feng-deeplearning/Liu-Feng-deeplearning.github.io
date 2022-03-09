@@ -42,7 +42,7 @@ https://lujiaying.github.io/posts/2018/01/Chinese-word-segmentation/
 例如 今天/天气/很好 weight=0.1 + 0.1 + 0.1 = 0。3
 今/天天/气很好 weight=0.2 + 0.1 +0。2 + 0.1 = 0。3
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-lattice.jpeg?raw=true" width="800" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-03-15-lattice.png?raw=true" width="800" /></div>
 
 
 表明上一个选择可能是一个更优的结果。

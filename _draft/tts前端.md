@@ -50,32 +50,31 @@ pos1, pos3, pos4, count2
 ```
 
 词图结构建成后，我们给每条路径加上对应的权重。例如，根据每个词出现的频率高低，赋予权重。
-(实际中常用 该词出现的次数，除以所有词出现总次数再取对数作为权重值) 这样权重越大的路径，出现几率则越高。
+(实际中常用该词出现的次数，除以所有词出现总次数再取对数作为权重值) 
 
-例如 今天/天气/很好 weight=0.1 + 0.1 + 0.1 = 0。3
-今/天天/气很好 weight=0.2 + 0.1 +0。2 + 0.1 = 0。3
+这样权重越大的路径，出现几率则越高。例如:
 
+```text
+今天/天气/很好 weight = -(0.1 + 0.1 + 0.1) = -0.3
+今/天天/气很好 weight = -(0.2 + 0.1 +0.2 + 0.1) = -0.3
+``` 
 
+这表明第一一个选择可能是一个更优的结果。
 
-表明上一个选择可能是一个更优的结果。
-
-词图其实是一个 DAG (有向无环图)
-
+可以看出，**词图其实是一个 DAG (有向无环图)。**
 
 ### 搜索词图
 
 这样，我们的任务变成了从所有S到E中，搜索一条权重最大的边。
 怎样来高效的搜索呢？
 
-一个经典的做法，是使用 Viterbi 算法。
+对于DAG，一个显而易见的性质是，对于一条权重最优路径，其每个子路径都是权重最优。
+因此我们可以使用贪心算法进行求解，即 Viterbi 算法。简单的介绍一下搜索的过程：
 
-显然我们会发现，对于一条权重最优路径，其每个子路径都是权重最优，因此我们可以使用贪心算法进行求解。
+想象每个结点上有一个令牌(token)，该 token 上记录了以下信息：
+当前最大权重(weight)，当前最大权重对应路径的上一个token所在id(pre_node_id)。
+从起始点开始，依次更新token信息。一个大概的更新算法如下:
 
-想象每个结点上有一个令牌（token），该 token 上记录了以下信息：
-当前最大权重，当前最大权重对应路径的上一个token
-weight，pre_node
-
-我们依次从起始点来更新token信息,
 ```text
 token_id = 0
 while (token_id != end_id):
@@ -83,13 +82,14 @@ while (token_id != end_id):
   for arc in all_arc:  // 遍历所有指向该 node 的 arc
     if weight(arc) > max_weight:
       max_weight = weight(arc)
-      pre_node = get_start_node(arc)
-  token(token_id) = {max_weight, pre_node}
+      pre_node_id = get_start_node(arc)
+  token(token_id) = {max_weight, pre_node_id}
   token_id ++ 
 ```
-当我们搜索到最后的时候，可以通过每个 token 上的 pre_node 反向回溯，从而得到最优路径，以及其权值。
 
-对于一些更精细的方案，我们可以使用 ngram3 概率来计算每条边对应的 weight，
+当我们搜索到最后的时候，可以通过每个 token 上的 pre_node_id 反向回溯，从而得到最优路径，以及其权值。
+
+对于更精细的使用场景，可以考虑使用 ngram3 概率来计算每条边对应的 weight，算法如下:
 
 ```text
 token_id = 0
@@ -106,9 +106,10 @@ while (token_id != end_id):
   token(token_id) = {max_weight, pre_node}
   token_id ++ 
 ```
-当然，实际工程中，对于一个大规模语料来讲，3gram的模型可能对内存占用较大。还有一种更为折衷的方案是采用
-pos-3gram，pos是每个词词性，一般只有一二十个，因此，pos-3gram会比word-3gram小很多。
-同时，分词时考虑到词性信息也会提高准确率。
+
+当然，实际工程中，由于大规模语料对应的3gram模型对内存占用较大。使用一种更为折衷的方，采用
+pos-3gram，由于不同词性的数目一般只有十几到几十个，因此，pos-3gram 会比 word-3gram小很多。
+同时，分词时加入词性信息也会一定程度上提高准确率。因此，采用了如下的权重方案: 
 
 ```text
 weight =  weigth(uni-gram) + weigth(pos-3gram) * alpha

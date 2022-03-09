@@ -141,40 +141,40 @@ WagonTree 本质是一颗二叉树，一般的设计结构包括 node/leave，�
 
 **WagonTree 的构建**
 
-构建对应对特征向量，可以使用 当前词/前一词/后一词 的词性/词长度/是否为标点等特征。
-通过对训练数据进行分析，构建CART树模型。可以通过Gini指数或Entropy等指标来构建一颗树。
-该树最终可以写成类似如下的形式: 
+首先针对每条文本构建特征向量，可以使用 当前词/前一词/后一词的词性/词长度/是否为标点等特征。
+通过对训练数据进行分析，构建CART树模型。可以通过Gini指数或Entropy等准则来构建一颗树。该树最终可以写成类似如下的形式: 
 
 ```text
-Question-Set
-node_id fea value node_left node_rigth
+Question-Set:
+node_id fea_id value node_left node_rigth
 ... 
 
 leave_id value
 ...
  
 ```
-对于每个结点
+
+对于每个结点，根据 fea_id 和 value 决定跳转流向。
 
 ```text
-if feature[feat] == value:
+if feature[fea_id] == value:
   go to left node
 else:
   go to right node 
 ```
 
-如果使用类似的数据结构存储数据，可以按行依次将问题集存储到树当中。
+使用类似的数据结构存储数据，可以按行依次将问题集存储到树当中。
 
 ```text
 node{
 int fea_num;
 int vale;
+int cur_node;
 int left_node;
 int right_node;
 int is_leave; 
 }
 ```
-
 
 **WagonTree 的推理**
 
@@ -194,19 +194,8 @@ while(true)
 根据此过程可以看出，推理速度和树深度正相关。
 因此，在性能相同的情况下，应该尽可能使得整个树深度最小。
 
+### phone
 
 
 
-### 中文
 
-1. mark the english parts with /nx， mark the digits with /m
-
-### 构建 klexicon
-klexicon format: [word, pos, pron, count]
-1. read all data
-2. sorted by count, pos and pinyin
-3.
-
-### Wagon Tree for Prosody
-
-https://github.com/festvox/speech_tools/blob/master/doc/estwagon.md

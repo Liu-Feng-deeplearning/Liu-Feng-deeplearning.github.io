@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Kaldi笔记-Tdnnf模型
-categories: 语音识别与Kaldi
+categories: 语音识别
 description:  
 keywords: 语音识别， Kaldi
 ---

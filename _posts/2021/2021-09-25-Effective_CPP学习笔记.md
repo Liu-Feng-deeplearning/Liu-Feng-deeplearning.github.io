@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Effective c++ 学习笔记
-categories: CPP
+categories: c++与高性能计算
 description: 
 keywords: CPP
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: start-my-blog
-categories: 前端
+categories: 其他
 description: introduction
 keywords: 前端技术，中文写作规范
 ---

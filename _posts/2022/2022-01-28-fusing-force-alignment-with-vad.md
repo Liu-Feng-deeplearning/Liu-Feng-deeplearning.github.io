@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Fusing Force-Alignment with Vad
-categories: 语音信号处理
+categories: 语音识别
 description: 
 keywords: 语音信号处理
 ---

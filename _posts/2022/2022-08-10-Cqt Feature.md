@@ -19,17 +19,19 @@ cqt 特征本质上就是 fft 的变种，相邻两个频谱频带宽度的比�
 
 具体计算方法可以直接参考 [wikipedia](https://en.wikipedia.org/wiki/Constant-Q_transform)
 
-
 画出同一段音频对应的频谱对比图(红色高跟鞋歌曲的前奏)，可以看出，对于 bgm 场景，
 cqt 可以更好的刻画音频中的特征。具体来说，可以更好的将能量强的频谱汇聚在少数几个频带上。
 这和我们使用 cqt 的初衷是一样的。
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-0808-mels_Vs_cqt.png?raw=true" width="1000" /></div>
-
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-mels_Vs_cqt.png?raw=true" width="1000" /></div>
 
 ### cqt and pseodo cqt
 
-### other feature related cqt
+cqt 特征经常被诟病的一点是推理速度比较慢。例如在 Coi-bytecover 方法中，特征 process 和 神经网络 process 的耗时量级相当，这显然不太理想。
+一个比较好的方法是从 mel 出发，fft 结果直接乘一个对应系数，从而得到 cqt，虽然可能会牺牲一点精度，但换来速度的重大提升。这便是 librosa 的 pseudo-cqt 特征。
+
+还有一个变种是 hybrid-cqt, 
+
 
 ### cqt Vs Chroma
 
@@ -38,7 +40,7 @@ cqt 中所有表示 Do 的音进行归并，某种程度上来说，在识别对
 在 librosa 里面对应求法非常 简单，生成一个转换矩阵，直接将 cqt 特征映射成 chroma_cqt 特征。
 
 类似的，绘出相同音频的 Cqt Vs Chroma 如下: 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-0808-cqt_Vs_chroma.png?raw=true" width="1000" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cqt_Vs_chroma.png?raw=true" width="1000" /></div>
 
 chroma 提取了更为高维的音阶特征。12维分别代表每个音阶的能量分布。
 
@@ -58,8 +60,8 @@ chroma 提取了更为高维的音阶特征。12维分别代表每个音阶的�
 本质相当于对和弦进行分类，然后提取倒数第二层作为 embedding(类似声纹)，相当于对 和弦进行预测，从而得到对应特征。
 
 <div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cens_Vs_chroma.png?raw=true" width="1000" /></div>
-    
 
+### Conclusion
 
 
   

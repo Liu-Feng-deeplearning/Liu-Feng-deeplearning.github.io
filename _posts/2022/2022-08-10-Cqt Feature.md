@@ -23,7 +23,7 @@ cqt 特征本质上就是 fft 的变种，相邻两个频谱频带宽度的比�
 cqt 可以更好的刻画音频中的特征。具体来说，可以更好的将能量强的频谱汇聚在少数几个频带上。
 这和我们使用 cqt 的初衷是一样的。
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-mels_Vs_cqt.png?raw=true" width="1000" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-mels_Vs_cqt.png?raw=true" width="800" /></div>
 
 ### cqt and pseodo cqt
 
@@ -32,7 +32,7 @@ cqt 特征经常被诟病的一点是推理速度比较慢。例如在 Coi-bytec
 一种更快速的实现是，选取 filter的时候，不是选择所有的，而是选择 2的方中，不少于hop-size 二倍和最长 cqt filter 长度的窗长，从而得到近似的 pseudo-cqt 特征。
 另一个变种是 hybrid-cqt, 低频用 full-cqt，高频用 pseudo-cqt。 
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-pseudo_cqt_Vs_cqt.png?raw=true" width="1000" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-pseudo_cqt_Vs_cqt.png?raw=true" width="800" /></div>
 
 
 ### cqt Vs Chroma
@@ -42,7 +42,7 @@ cqt 中所有表示 Do 的音进行归并，某种程度上来说，在识别对
 在 librosa 里面对应求法非常 简单，生成一个转换矩阵，直接将 cqt 特征映射成 chroma_cqt 特征。
 
 类似的，绘出相同音频的 Cqt Vs Chroma 如下: 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cqt_Vs_chroma.png?raw=true" width="1000" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cqt_Vs_chroma.png?raw=true" width="800" /></div>
 
 chroma 提取了更为高维的音阶特征。12维分别代表每个音阶的能量分布。
 
@@ -62,7 +62,7 @@ chroma 提取了更为高维的音阶特征。12维分别代表每个音阶的�
 而 crema 特征，来自于 [论文](https://brianmcfee.net/papers/ismir2017_chord.pdf)，
 本质相当于对和弦进行分类，然后提取倒数第二层作为 embedding(类似声纹)，相当于对和弦进行预测，从而得到对应特征。
 
-<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cens_Vs_chroma.png?raw=true" width="1000" /></div>
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-cens_Vs_chroma.png?raw=true" width="800" /></div>
 
 ### Conclusion
 

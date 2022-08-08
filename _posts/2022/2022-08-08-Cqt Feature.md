@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Constant-Q transform Feature
-categories: 音频信号处理
+categories: 语音信号处理
 description: 
 keywords: Cqt, chroma, cens, crema, 特征
 ---

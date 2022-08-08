@@ -3,7 +3,7 @@ layout: post
 title: Constant-Q transform Feature
 categories: 音频信号处理
 description: 
-keywords: 
+keywords: Cqt, chroma, cens, crema, 特征
 ---
 
 Cqt(Constant-Q transform) 特征是音乐领域里音频处理的常见特征。

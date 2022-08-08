@@ -28,9 +28,11 @@ cqt 可以更好的刻画音频中的特征。具体来说，可以更好的将�
 ### cqt and pseodo cqt
 
 cqt 特征经常被诟病的一点是推理速度比较慢。例如在 Coi-bytecover 方法中，特征 process 和 神经网络 process 的耗时量级相当，这显然不太理想。
-一个比较好的方法是从 mel 出发，fft 结果直接乘一个对应系数，从而得到 cqt，虽然可能会牺牲一点精度，但换来速度的重大提升。这便是 librosa 的 pseudo-cqt 特征。
+原始的 cqt 求解方法是根据不同的 bank-center 求出对应的 filter，然后把所有 filter 依次作用在 freq 上，获得每个维度的结果。
+一种更快速的实现是，选取 filter的时候，不是选择所有的，而是选择 2的方中，不少于hop-size 二倍和最长 cqt filter 长度的窗长，从而得到近似的 pseudo-cqt 特征。
+(librosa)。另一个变种是 hybrid-cqt, 低频用 full-cqt，高频用 pseudo-cqt。 
 
-还有一个变种是 hybrid-cqt, 
+<div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-08-pseudo_cqt_Vs_cqt.png?raw=true" width="1000" /></div>
 
 
 ### cqt Vs Chroma

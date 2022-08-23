@@ -12,7 +12,7 @@ keywords: ddpm, 声码器, tts, WaveGrad
 
 ## DDPM 方法简介
 
-ddpm-Denoising Diffusion Probabilistic Model，是进来在生成领域非常火的一类模型。
+ddpm-Denoising Diffusion Probabilistic Model，是最近生成领域非常火的一类模型。
 抛弃严谨的数学推导，
 我用自己的理解大概讲一下：传统方案下，需要从无到有/从高斯分布的噪声生成对应的图像，
 这个过程非常困难，需要模型从中学到很多东西。扩散模型希望把整个过程拆成若干步，
@@ -92,8 +92,20 @@ gradWave 的一个优化是对推理步骤，正常来讲 T=1000，这样一个�
 
 性能依然是 waveGrad 方法的一个瓶颈。
 
+## 总结
 
-### Ref
+整体上来说，因为作者放了论文的源码，复现起来比较顺利。bzn 数据质量很高，真是做声码器问题的黄金数据。
+
+遇到的瓶颈主要在于公式推导上，有两天时间都在纠结 朗之万动态采样公式中随机噪声的系数取值，
+后来看苏神的博客说，直接取和正向相同的 beta 即可。我自己在推理过程中，大概测试了一下，发现其实不敏感。
+（系数调大一倍对结果基本不影响）
+另外，花了一点时间在严谨 sgd 和 langevan dynamic 之间的关系，
+数学上很多推导虽然没太看懂，但看得很有乐趣。
+
+WaveGrad 更多是一个比较有启发意义的工作，距离使用还有距离。毕竟是20年底的工作了，
+还有一些更新的 ddpm for vocoder 的工作在解决性能的相关问题。
+
+## Ref
 - 苏神关于 ddpm 的通俗讲解:盖楼与拆楼 https://spaces.ac.cn/archives/9119
 - lilan大神关于 ddpm 更系统的讲解 https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#nice
 - WaveGrad https://arxiv.org/pdf/2009.00713.pdf

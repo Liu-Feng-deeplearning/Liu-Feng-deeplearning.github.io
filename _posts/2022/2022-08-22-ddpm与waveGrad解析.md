@@ -45,9 +45,7 @@ y -> x 过程非常简单，但逆问题想做到高精度/效率兼顾却比较
 
 <div style="text-align: center"><img src="https://github.com/Liu-Feng-deeplearning/Liu-Feng-deeplearning.github.io/blob/master/images/posts/2022/2022-08-26-ddpm-1.png?raw=true" width="800" /></div>
 
-wavegrad 应该是一个比较早使用 ddpm 的声码器框架，google 开源了其源码 www
- 
-结合论文来做一些解析。
+wavegrad 应该是一个比较早使用 ddpm 的声码器框架，作者开源了其源码，结合论文和代码来做一些解析。
 
 首先来看下算法的基本架构，
 

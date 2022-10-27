@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ddpm 学习笔记之 WaveGrad 解析
-categories: 语音信号处理
+categories: 深度学习与机器学习
 description: 
 keywords: ddpm, 声码器, tts, WaveGrad
 ---

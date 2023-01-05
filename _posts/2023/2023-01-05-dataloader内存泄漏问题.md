@@ -94,33 +94,3 @@ python 对内存的管理也比较迷，类似 del xxx 之类，只是对 xxx �
 变量的引用计数器的存在，有时使得代码的内存情况不是特别直观，以及有时一些变量会临时住内存以加速。
 和c++相比，python 管理内存有时感到有点无力，也可能 python 设计的初衷就是让程序员**不要**考虑内存之类底层的东西。
 如果对内存敏感，就换成别的语言。
-
-
-
-
-
-
-
-
-# import numpy as np
-# import torch
-# from memory_profiler import profile
-#
-# from src.csi.trainer_and_dataset.dataset import AudioFeatDataset, \
-#   MPerClassSampler
-# from src.csi.v17.model import Model
-# from src.utils.utils import load_hparams
-
-
-# @profile
-# def _check_dataset():
-
-https://zhuanlan.zhihu.com/p/80689571
-
-
-import tracemalloc
-不work
-
-
-
-python3 -m src.csi.trainer_and_dataset.dataset > memory.log 2>&1

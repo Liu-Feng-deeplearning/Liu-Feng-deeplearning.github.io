@@ -1,9 +1,9 @@
 ---
 layout: post
 title: dataloader内存泄漏问题
-categories: 其他
+categories: 深度学习与机器学习
 description: 
-keywords: 语音信号处理
+keywords: 深度学习与机器学习 dataloader 内存泄漏 模型训练
 ---
 
 记录最近遇到的一个 PyTorch 训练内存泄漏的问题。查了好几天有点棘手，大费周折。
